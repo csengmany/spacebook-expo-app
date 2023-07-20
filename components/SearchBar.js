@@ -3,21 +3,20 @@ import { View, Text, TouchableOpacity, Modal, StyleSheet, TextInput } from 'reac
 import { Ionicons } from '@expo/vector-icons';
 import SelectRange from './SelectRange';
 import colors from "../assets/colors";
-const { red, darkgray } = colors;
+const { red } = colors;
 
 const SearchBar = ({ 
-  searchFilters, 
   setSearchFilters, 
   filters, 
   setFilters, 
   priceValues, 
-  surfaceValues 
+  surfaceValues
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [address, setAddress] = useState('');
   const [capacityMin, setCapacityMin] = useState('');
   const [date, setDate] = useState('');
-    //slider filters for surface and price
+   //slider filters for surface and price
   const [surfaceRangeValues, setSurfaceRangeValues] = useState(surfaceValues)
   const [priceRangeValues, setPriceRangeValues] = useState(priceValues)
 
@@ -31,7 +30,16 @@ const SearchBar = ({
 
   const handleSearch = () => {
     setSearchFilters(`date=${date?date:''}&capacityMin=${capacityMin?capacityMin:''}&address=${address?address:''}`)
-    setFilters(filters+` &surfaceMin=${surfaceRangeValues[0]}&surfaceMax=${surfaceRangeValues[1]}&priceMin=${priceRangeValues[0]}&priceMax=${priceRangeValues[1]}`)
+    if(!filters.includes('surface'))
+    setFilters(filters+`&surfaceMin=${surfaceRangeValues[0]}&surfaceMax=${surfaceRangeValues[1]}&priceMin=${priceRangeValues[0]}&priceMax=${priceRangeValues[1]}`)
+    else{
+      let newFilters = filters.replace(/surfaceMin=\d+/,`&surfaceMin=${surfaceRangeValues[0]}`)
+      .replace(/surfaceMax=\d+/,`&surfaceMax=${surfaceRangeValues[1]}`)
+      .replace(/priceMin=\d+/,`&priceMin=${priceRangeValues[0]}`)
+      .replace(/priceMax=\d+/,`&priceMax=${priceRangeValues[1]}`)
+
+      setFilters(newFilters)
+    }
     closeModal();
   };
 
@@ -68,14 +76,11 @@ const SearchBar = ({
               keyboardType="numeric"
             />
             <TextInput
-              style={styles.input}
+              style={[styles.input, styles.lastInput]}
               placeholder="Date"
               value={date}
               onChangeText={setDate}
             />
-            <TouchableOpacity onPress={handleSearch} style={styles.searchButton}>
-              <Text style={styles.searchButtonText}>Rechercher</Text>
-            </TouchableOpacity>
 
             <View style={styles.slider}>
               <View style={styles.labelContainer}>
@@ -90,6 +95,10 @@ const SearchBar = ({
               </View>
             </View>
 
+            <TouchableOpacity onPress={handleSearch} style={styles.searchButton}>
+              <Text style={styles.searchButtonText}>Rechercher</Text>
+            </TouchableOpacity>
+
           </View>
         </View>
       </Modal>
@@ -102,7 +111,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#ffffff',
+    elevation: 2, // Shadow for Android
+    shadowOffset: { width: 0, height: 1 }, // Shadow for iOS
+    shadowOpacity: 0.5, // Shadow for iOS
+    shadowRadius: 2,
+    borderRadius:20
   },
   iconButton: {
     padding: 8,
@@ -137,13 +151,17 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     paddingHorizontal: 8,
     fontFamily:"NotoSans",
+    borderRadius:5
+  },
+  lastInput:{
+    marginBottom:5,
   },
   searchButton: {
     borderRadius:5,
     backgroundColor: red,
     padding: 16,
     alignItems: 'center',
-    marginBottom: 16,
+    marginVertical: 16,
   },
   searchButtonText: {
     fontSize: 16,
@@ -162,11 +180,10 @@ const styles = StyleSheet.create({
     },
     labelContainer: {
       alignItems: 'center',
-      marginTop:10,
+      marginTop:16,
       marginBottom: 20,
     },
     slideLabel: {
-      marginRight: 8,
       fontSize: 16,
       fontFamily:"NotoSans",
     },

@@ -34,7 +34,9 @@ const SelectRange = ({
         min={MIN}
         max={MAX}
         values={rangeValues}
-        onValuesChange={(values) => setRangeValues(values)}
+        onValuesChange={(values) => {
+          setRangeValues(values)
+        }}
         onValuesChangeFinish={(values) => {
           setFetchRangeValues(values);
         }}

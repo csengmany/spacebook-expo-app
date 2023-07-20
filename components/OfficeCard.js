@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigation } from "@react-navigation/core";
 import { StyleSheet, View, Image, Text, TouchableOpacity, TouchableWithoutFeedback, useWindowDimensions } from "react-native";
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function Office({ office }) {
 const { width } = useWindowDimensions()
@@ -13,7 +13,9 @@ office.photos.map((photo,j)=>{
 })
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+      display:"flex",
+      justifyContent:"center",
+      alignItems:"center",
     },
     description:{
       width:"100%",
@@ -22,19 +24,22 @@ const styles = StyleSheet.create({
     },
     bgImage: {
         width: width-50,
+        marginHorizontal:25,
         height: 270,
-        justifyContent: "flex-end",
-        position: "relative",
         borderRadius:10,
     },
      photos: {
-        flexDirection: "row",
-        flexWrap: "nowrap",
-        height: "auto",
-        width: width,
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center",
+        width: width-50,
         paddingHorizontal:25,
     },
-    
+    text:{ 
+      // display:"flex",
+      // justifyContent:"center",
+      // alignItems:"center"
+  },
     title:{
       fontFamily:"NotoSansMedium",
     },
@@ -43,12 +48,13 @@ return (
     <View style={styles.container}>
       <View style={styles.photos}>
         <SwiperFlatList
+        style={{width:width}}
           showPagination
           paginationStyle={{
-              left: 0,
-              right: 0,
-              alignItems: "center",
-              opacity:0.8,
+            left: 0,
+            right: 0,
+            alignItems: "center",
+            opacity:0.8,
           }}
           data={office.photos}
           renderItem={({ item }) => {
@@ -76,9 +82,10 @@ return (
             {office.address}
           </Text>
           <Text>
-            <Ionicons name="people-outline" size={16} color="black" /> {office.capacity} 
-            <MaterialIcons name="square-foot" size={16} color="black" />{office.surface}
+              <Ionicons name="people-outline" size={16} color="black"/> {office.capacity} &nbsp; 
+              <MaterialCommunityIcons name="set-square" size={16} color="black"/>{office.surface}m²
           </Text>
+         
           <Text>{office.price} € par jour</Text>
       </TouchableOpacity> 
     </View>)

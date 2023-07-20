@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ScrollView, Text, TouchableOpacity } from "react-native";
-import {Feather, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import {Feather, FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from "../assets/colors";
-const { red, darkgray } = colors;
-const Filters = ({setPage, setFilters, searchFilters, priceValues, surfaceValues}) => {
+const { red,black } = colors;
+const Filters = ({
+  setPage, 
+  setFilters, 
+  searchFilters, 
+  setPriceRangeValues, 
+  setSurfaceRangeValues
+}) => {
     //filters for equipments and services
     const[tv, setTv] = useState(false)
     const[whiteboard, setWhiteboard] = useState(false)
@@ -12,10 +18,8 @@ const Filters = ({setPage, setFilters, searchFilters, priceValues, surfaceValues
     const[water, setWater] = useState(false)
     const[ac, setAc] = useState(false)
     const[elevator, setElevator] = useState(false)
-    const[sort, setSort] = useState('')
-    //slider filters for surface and price
-    const [surfaceRangeValues, setSurfaceRangeValues] = useState(surfaceValues)
-    const [priceRangeValues, setPriceRangeValues] = useState(priceValues)
+    const[sort] = useState('')
+
     const resetFilters = () => {
         setTv(false)
         setWhiteboard(false)
@@ -40,42 +44,41 @@ const Filters = ({setPage, setFilters, searchFilters, priceValues, surfaceValues
         searchFilters,
         tv, whiteboard, projector, 
         coffee, water,ac, elevator,
-        surfaceRangeValues,priceRangeValues,
         sort
     ])
    return (
         <View>
           <ScrollView horizontal={true}>
             <TouchableOpacity style={styles.btnFilter} onPress={()=>setTv(!tv)}>
-              <FontAwesome name="tv" size={24} color={tv?red:darkgray} />
-              <Text style={{color:tv?red:darkgray}}>Écran TV</Text>
+              <FontAwesome name="tv" size={24} color={tv?red:black} />
+              <Text style={{color:tv?red:black}}>Écran TV</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnFilter} onPress={()=>setWhiteboard(!whiteboard)}>
-              <MaterialCommunityIcons name="presentation" size={24} color={whiteboard?red:darkgray} />
-              <Text style={{color:whiteboard?red:darkgray}}>Tableau blanc</Text>
+              <MaterialCommunityIcons name="presentation" size={24} color={whiteboard?red:black} />
+              <Text style={{color:whiteboard?red:black}}>Tableau blanc</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnFilter} onPress={()=>setProjector(!projector)}>
-              <Ionicons name="videocam-outline" size={24} color={projector?red:darkgray} />
-              <Text style={{color:projector?red:darkgray}}>Vidéo-projecteur</Text>
+              <Ionicons name="videocam-outline" size={24} color={projector?red:black} />
+              <Text style={{color:projector?red:black}}>Vidéo-projecteur</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnFilter} onPress={()=>setCoffee(!coffee)}>
-              <MaterialCommunityIcons name="coffee-maker-outline" size={24} color={coffee?red:darkgray} />
-              <Text style={{color:coffee?red:darkgray}}>Thé & café</Text>
+              <MaterialCommunityIcons name="coffee-maker-outline" size={24} color={coffee?red:black} />
+              <Text style={{color:coffee?red:black}}>Thé & café</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnFilter} onPress={()=>setWater(!water)}>
-              <Ionicons name="water-outline" size={24} color={water?red:darkgray} />
-              <Text style={{color:water?red:darkgray}}>Fontaine à eau</Text>
+              <Ionicons name="water-outline" size={24} color={water?red:black} />
+              <Text style={{color:water?red:black}}>Fontaine à eau</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnFilter} onPress={()=>setAc(!ac)}>
-              <FontAwesome name="snowflake-o" size={24} color={ac?red:darkgray} />
-              <Text style={{color:ac?red:darkgray}}>Climatiseur</Text>
+              <FontAwesome name="snowflake-o" size={24} color={ac?red:black} />
+              <Text style={{color:ac?red:black}}>Climatiseur</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnFilter} onPress={()=>setElevator(!elevator)}>
-              <MaterialCommunityIcons name="elevator-passenger-outline" size={24} color={elevator?red:darkgray} />
-              <Text style={{color:elevator?red:darkgray}}>Ascenseur</Text>
+              <MaterialCommunityIcons name="elevator-passenger-outline" size={24} color={elevator?red:black} />
+              <Text style={{color:elevator?red:black}}>Ascenseur</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btnFilter}>
-              <Feather name="refresh-cw" size={24} color="black" />
+            <TouchableOpacity style={styles.btnFilter} onPress={resetFilters}>
+              <Feather name="refresh-cw" size={24} color={black} />
               <Text>Réinitialiser</Text>
             </TouchableOpacity>
           </ScrollView>
@@ -85,25 +88,10 @@ const Filters = ({setPage, setFilters, searchFilters, priceValues, surfaceValues
 
 const styles = StyleSheet.create({
     btnFilter:{
-      flex:1,
+      display:"flex",
       justifyContent:"center",
       alignItems:"center",
-      marginHorizontal:5,
-      marginTop: 5,
-    },
-    slider: {
-      marginBottom: 16,
-    },
-    labelContainer: {
-      // // flexDirection: 'row',
-      alignItems: 'center',
-      marginTop:10,
-      marginBottom: 20,
-    },
-    slideLabel: {
-      marginRight: 8,
-      fontSize: 16,
-      fontWeight: 'bold',
+      margin: 10,
     },
 });
 export default Filters;

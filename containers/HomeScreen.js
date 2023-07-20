@@ -4,7 +4,7 @@ import axios from "axios";
 import Loader from "../components/Loader";
 import SearchBar from "../components/SearchBar";
 import Filters from "../components/Filters";
-import Office from "../components/Office";
+import OfficeCard from "../components/OfficeCard";
 
 export default function HomeScreen() {
   const [data, setData] = useState([])
@@ -74,7 +74,6 @@ const handleEndReached = () => {
         <Filters 
           setPage={setPage}
           setFilters={setFilters} 
-          searchFilters={searchFilters}
           priceValues={priceValues}
           surfaceValues={surfaceValues}
           />
@@ -82,7 +81,7 @@ const handleEndReached = () => {
       <FlatList
         contentContainerStyle={styles.contentContainer}
         data={loadedOffices}
-        renderItem={({ item }) => <Office office={item}/>}
+        renderItem={({ item }) => <OfficeCard office={item}/>}
         keyExtractor={(item) => item._id}
         onEndReached={handleEndReached} //call function to load more offices
         onEndReachedThreshold={1.5} //load more offices before reaching the last office
@@ -93,7 +92,8 @@ const handleEndReached = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    backgroundColor: '#ffffff',
+    flex:1,
   },
   header: {
     paddingVertical: 16,
