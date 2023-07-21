@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {FlatList, StyleSheet, View } from "react-native";
+import {FlatList, StyleSheet, Text, View } from "react-native";
 import axios from "axios";
 import Loader from "../components/Loader";
 import SearchBar from "../components/SearchBar";
@@ -17,11 +17,11 @@ export default function HomeScreen() {
   const [surfaceValues,setSurfaceValues] = useState([null,null])
   //state for paging
   const [page, setPage] = useState(1)
-  const [limit, setLimit] = useState(12)
+  const [limit, setLimit] = useState(6)
   const [maxPage, setMaxPage] = useState("")
 
   //state for date
-  const[date, setDate] = useState(null)
+  const[date, setDate] = useState('')
 
 const [loadedOffices, setLoadedOffices] = useState([]);
 const loadMoreOffices = () => {
@@ -29,7 +29,7 @@ const loadMoreOffices = () => {
   if(loadMoreOffices.length===data.count)
   return
   //change limit to load more
-  setLimit(limit+12)
+  setLimit(limit+6)
 };
 const handleEndReached = () => {
   loadMoreOffices();
@@ -70,6 +70,8 @@ const handleEndReached = () => {
           setFilters={setFilters} 
           priceValues={priceValues} 
           surfaceValues={surfaceValues}
+          date={date}
+          setDate={setDate}
         />
         <Filters 
           setPage={setPage}
@@ -78,14 +80,16 @@ const handleEndReached = () => {
           surfaceValues={surfaceValues}
           />
       </View>
+      {loadedOffices.length ?
       <FlatList
         contentContainerStyle={styles.contentContainer}
         data={loadedOffices}
-        renderItem={({ item }) => <OfficeCard office={item}/>}
+        renderItem={({ item }) => <OfficeCard office={item} date={date}/>}
         keyExtractor={(item) => item._id}
         onEndReached={handleEndReached} //call function to load more offices
         onEndReachedThreshold={1.5} //load more offices before reaching the last office
       />
+    :<Text style={styles.text}>Aucun Space ne correspond à votre recherche 😔</Text>}
   </View>
   );
 }
@@ -93,7 +97,7 @@ const handleEndReached = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
-    flex:1,
+    flex:1
   },
   header: {
     paddingVertical: 16,
@@ -102,5 +106,11 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
     paddingBottom: 16,
+  },
+  text:{
+    fontFamily:"NotoSansMedium",
+    paddingHorizontal: 25,
+    marginTop: 170,
+    textAlign:"center"
   }
 }); 

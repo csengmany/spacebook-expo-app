@@ -3,19 +3,20 @@ import { View, Text, TouchableOpacity, Modal, StyleSheet, TextInput } from 'reac
 import { Ionicons } from '@expo/vector-icons';
 import SelectRange from './SelectRange';
 import colors from "../assets/colors";
-const { red } = colors;
+const { red, lightgray } = colors;
 
 const SearchBar = ({ 
   setSearchFilters, 
   filters, 
   setFilters, 
   priceValues, 
-  surfaceValues
+  surfaceValues,
+  date,
+  setDate
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [address, setAddress] = useState('');
   const [capacityMin, setCapacityMin] = useState('');
-  const [date, setDate] = useState('');
    //slider filters for surface and price
   const [surfaceRangeValues, setSurfaceRangeValues] = useState(surfaceValues)
   const [priceRangeValues, setPriceRangeValues] = useState(priceValues)
@@ -26,6 +27,23 @@ const SearchBar = ({
 
   const closeModal = () => {
     setModalVisible(false);
+  };
+
+  const handleNumberInputChange = (text) => {
+    // remove all letters
+    const numericValue = text.replace(/[^0-9]/g, '');
+    setCapacityMin(numericValue);
+  };
+  
+  //clear input
+  const handleClearInput = (inputType) => {
+    if (inputType === 'address') {
+      setAddress('');
+    } else if (inputType === 'capacityMin') {
+      setCapacityMin('');
+    } else if (inputType === 'date') {
+      setDate('');
+    }
   };
 
   const handleSearch = () => {
@@ -62,24 +80,49 @@ const SearchBar = ({
             <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
               <Ionicons name="close" size={24} color="black" />
             </TouchableOpacity>
-            <TextInput
-              style={styles.input}
-              placeholder="Adresse"
-              value={address}
-              onChangeText={setAddress}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Nombre de participants"
-              value={capacityMin}
-              onChangeText={setCapacityMin}
-              keyboardType="numeric"
-            />
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Adresse"
+                value={address}
+                onChangeText={setAddress}
+                clearButtonMode="while-editing"
+              />
+              {address ? (
+                <TouchableOpacity
+                  style={styles.clearIcon}
+                  onPress={() => handleClearInput('address')}
+                >
+                  <Ionicons name="close-circle" size={24} color={lightgray} />
+                </TouchableOpacity>
+              ) : null}
+            </View>
+            
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Nombre de participants"
+                value={capacityMin}
+                onChangeText={handleNumberInputChange}
+                keyboardType="numeric"
+                clearButtonMode="while-editing"
+              />
+              {capacityMin ? (
+                <TouchableOpacity
+                  style={styles.clearIcon}
+                  onPress={() => handleClearInput('capacityMin')}
+                >
+                  <Ionicons name="close-circle" size={24} color={lightgray} />
+                </TouchableOpacity>
+              ) : null}
+            </View>
+            
             <TextInput
               style={[styles.input, styles.lastInput]}
               placeholder="Date"
               value={date}
               onChangeText={setDate}
+              
             />
 
             <View style={styles.slider}>
@@ -149,9 +192,10 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     marginBottom: 16,
-    paddingHorizontal: 8,
+    paddingLeft: 8,
     fontFamily:"NotoSans",
-    borderRadius:5
+    borderRadius:5,
+    paddingRight:30
   },
   lastInput:{
     marginBottom:5,
@@ -187,6 +231,14 @@ const styles = StyleSheet.create({
       fontSize: 16,
       fontFamily:"NotoSans",
     },
+    inputContainer:{
+      position:"relative"
+    },
+    clearIcon:{
+      position:"absolute",
+      top:8,
+      right:5,
+    }
 });
 
 export default SearchBar;

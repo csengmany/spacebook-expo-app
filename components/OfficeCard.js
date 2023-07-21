@@ -4,7 +4,7 @@ import { StyleSheet, View, Image, Text, TouchableOpacity, TouchableWithoutFeedba
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-export default function Office({ office }) {
+export default function OfficeCard({ office, date }) {
 const { width } = useWindowDimensions()
 const navigation = useNavigation();
 const carouselData = []
@@ -35,11 +35,6 @@ const styles = StyleSheet.create({
         width: width-50,
         paddingHorizontal:25,
     },
-    text:{ 
-      // display:"flex",
-      // justifyContent:"center",
-      // alignItems:"center"
-  },
     title:{
       fontFamily:"NotoSansMedium",
     },
@@ -60,7 +55,7 @@ return (
           renderItem={({ item }) => {
               return (
                 <TouchableWithoutFeedback onPress={() => {
-                  navigation.navigate("Office", { officeId: office._id });
+                  navigation.navigate("Office", { id: office._id, date:date });
                 }}>
                   <Image
                       style={styles.bgImage}

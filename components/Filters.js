@@ -7,8 +7,6 @@ const Filters = ({
   setPage, 
   setFilters, 
   searchFilters, 
-  setPriceRangeValues, 
-  setSurfaceRangeValues
 }) => {
     //filters for equipments and services
     const[tv, setTv] = useState(false)
@@ -28,9 +26,6 @@ const Filters = ({
         setWater(false)
         setAc(false)
         setElevator(false)
-        setSurfaceRangeValues(surfaceValues)
-        setPriceRangeValues(priceValues)
-
     }
     useEffect(()=>{
         setPage(1)

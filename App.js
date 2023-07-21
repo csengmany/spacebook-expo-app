@@ -78,6 +78,7 @@ export default function App() {
               </Stack.Screen>
             </>
           ) : (
+            <>
             <Stack.Screen name="Tab" options={{ headerShown: false }}>
               {() => (
                 <Tab.Navigator
@@ -116,14 +117,6 @@ export default function App() {
                           }}
                         >
                           {() => <BookingsScreen />}
-                        </Stack.Screen>
-                        <Stack.Screen
-                          name="Office"
-                          options={{
-                            title: "Détails",
-                          }}
-                        >
-                          {() => <OfficeScreen />}
                         </Stack.Screen>
                       </Stack.Navigator>
                     )}
@@ -175,6 +168,15 @@ export default function App() {
                 </Tab.Navigator>
               )}
             </Stack.Screen>
+            <Stack.Screen
+                name="Office"
+                options={{
+                  title: "Détails",
+                }}
+              >
+              {() => <OfficeScreen />}
+            </Stack.Screen>
+            </>
           )}
         </Stack.Navigator>
       </NavigationContainer>
