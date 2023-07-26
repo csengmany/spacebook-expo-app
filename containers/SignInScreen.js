@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Input from "../components/Input";
 import colors from "../assets/colors";
-const { red, white } = colors;
+const { red } = colors;
 
 export default function SignInScreen({ setToken }) {
   const [email, setEmail] = useState("");
@@ -13,7 +13,7 @@ export default function SignInScreen({ setToken }) {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
-  const server = "http://192.168.68.104:3002"
+  const server = "http://192.168.1.37:3002"
   //"https://spacebook-backend-94816fa1b759.herokuapp.com"
 
   const submit = async () => {
@@ -27,7 +27,6 @@ export default function SignInScreen({ setToken }) {
                     `${server}/user/login`,
                     { email, password }
                 )
-
             if (response.data.token) {
                 setIsLoading(false);
                 setToken(response.data.token)
@@ -83,7 +82,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     text: {
-        color: white,
+        color: "#FFF",
         textAlign: "center",
         fontFamily:"NotoSansBold"
     },
@@ -99,7 +98,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     color: {
-        color: white,
+        color: "#FFF",
     },
     bg: {
         backgroundColor: red,

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import colors from "../assets/colors";
-const { red, white } = colors;
+const { red } = colors;
 export default function AccountScreen({ setToken }) {
   return (
     <View style={styles.container}>
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     text: {
-        color: white,
+        color: "#FFF",
         textAlign: "center",
         fontFamily:"NotoSansBold"
     },
@@ -38,9 +38,6 @@ const styles = StyleSheet.create({
         width: "50%",
         justifyContent: "center",
         alignItems: "center",
-    },
-    color: {
-        color: white,
     },
     bg: {
         backgroundColor: red,

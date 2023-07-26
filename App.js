@@ -14,6 +14,7 @@ const { red,darkgray } = colors;
 import * as Font from 'expo-font';
 import OfficeScreen from "./containers/OfficeScreen";
 import BookingsScreen from "./containers/BookingsScreen";
+import PaymentScreen from "./containers/PaymentScreen";
 
 
 const Tab = createBottomTabNavigator();
@@ -104,7 +105,7 @@ export default function App() {
                           options={{
                             title: "SPACEBOOK",
                             headerStyle: { backgroundColor: red },
-                            headerTitleStyle: { color: "white", fontFamily:'NotoSansBold' },
+                            headerTitleStyle: { color: "#FFF", fontFamily:'NotoSansBold' },
                           }}
                         >
                           {() => <HomeScreen />}
@@ -176,6 +177,16 @@ export default function App() {
               >
               {() => <OfficeScreen />}
             </Stack.Screen>
+            
+            <Stack.Screen
+                name="Payment"
+                options={{
+                  title: "Paiement",
+                }}
+              >
+              {() => <PaymentScreen />}
+            </Stack.Screen>
+
             </>
           )}
         </Stack.Navigator>

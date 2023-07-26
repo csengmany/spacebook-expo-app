@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigation } from "@react-navigation/core";
 import { StyleSheet, View, Image, Text, TouchableOpacity, TouchableWithoutFeedback, useWindowDimensions } from "react-native";
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
-import { Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function OfficeCard({ office, date }) {
 const { width } = useWindowDimensions()
@@ -69,7 +69,7 @@ return (
         ></SwiperFlatList>
       </View>
       <TouchableOpacity style={styles.description} onPress={() => {
-          navigation.navigate("Office", { officeId: office._id });
+          navigation.navigate("Office", { id: office._id, date:date });
         }}>
           <Text style={styles.title}>Space {office.title}</Text>
           <Text>

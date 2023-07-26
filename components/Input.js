@@ -2,7 +2,7 @@ import React from "react";
 import { TextInput, StyleSheet, View, Dimensions } from "react-native";
 // import colors
 import colors from "../assets/colors";
-const { red, grey, white, lightGrey } = colors;
+const { red, lightGrey } = colors;
 
 import { Ionicons } from "@expo/vector-icons";
 const width = Dimensions.get("window").width;

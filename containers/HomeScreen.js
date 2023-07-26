@@ -35,7 +35,7 @@ const handleEndReached = () => {
   loadMoreOffices();
 };
 
-  const server = "http://192.168.68.104:3002"
+  const server = "http://192.168.1.37:3002"
   //"https://spacebook-backend-94816fa1b759.herokuapp.com"
 
   useEffect(() => {

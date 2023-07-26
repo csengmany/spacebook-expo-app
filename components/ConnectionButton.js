@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 // import colors
 import colors from "../assets/colors";
-const { red, grey, white } = colors;
+const { red, grey } = colors;
 export default function ConnectionButton({ text, submitFunction, color }) {
     return (
         <TouchableOpacity
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     color: {
-        color: white,
+        color: "#FFF",
     },
     bg: {
         backgroundColor: red,

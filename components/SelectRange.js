@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#FF385C',
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: "#FFF",
   },
   markerContainer: {
     justifyContent: 'center',
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   markerText: {
     fontSize: 12,
-    color: 'white',
+    color: '#FFF',
   },
   markerTextPressed: {
     color: 'black',

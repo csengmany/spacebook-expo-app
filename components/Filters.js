@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ScrollView, Text, TouchableOpacity } from "react-native";
 import {Feather, FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from "../assets/colors";
-const { red,black } = colors;
+const { red } = colors;
 const Filters = ({
   setPage, 
   setFilters, 
@@ -45,35 +45,35 @@ const Filters = ({
         <View>
           <ScrollView horizontal={true}>
             <TouchableOpacity style={styles.btnFilter} onPress={()=>setTv(!tv)}>
-              <FontAwesome name="tv" size={24} color={tv?red:black} />
-              <Text style={{color:tv?red:black}}>Écran TV</Text>
+              <FontAwesome name="tv" size={24} color={tv?red:"black"} />
+              <Text style={{color:tv?red:"black"}}>Écran TV</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnFilter} onPress={()=>setWhiteboard(!whiteboard)}>
-              <MaterialCommunityIcons name="presentation" size={24} color={whiteboard?red:black} />
-              <Text style={{color:whiteboard?red:black}}>Tableau blanc</Text>
+              <MaterialCommunityIcons name="presentation" size={24} color={whiteboard?red:"black"} />
+              <Text style={{color:whiteboard?red:"black"}}>Tableau blanc</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnFilter} onPress={()=>setProjector(!projector)}>
-              <Ionicons name="videocam-outline" size={24} color={projector?red:black} />
-              <Text style={{color:projector?red:black}}>Vidéo-projecteur</Text>
+              <Ionicons name="videocam-outline" size={24} color={projector?red:"black"} />
+              <Text style={{color:projector?red:"black"}}>Vidéo-projecteur</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnFilter} onPress={()=>setCoffee(!coffee)}>
-              <MaterialCommunityIcons name="coffee-maker-outline" size={24} color={coffee?red:black} />
-              <Text style={{color:coffee?red:black}}>Thé & café</Text>
+              <MaterialCommunityIcons name="coffee-maker-outline" size={24} color={coffee?red:"black"} />
+              <Text style={{color:coffee?red:"black"}}>Thé & café</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnFilter} onPress={()=>setWater(!water)}>
-              <Ionicons name="water-outline" size={24} color={water?red:black} />
-              <Text style={{color:water?red:black}}>Fontaine à eau</Text>
+              <Ionicons name="water-outline" size={24} color={water?red:"black"} />
+              <Text style={{color:water?red:"black"}}>Fontaine à eau</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnFilter} onPress={()=>setAc(!ac)}>
-              <FontAwesome name="snowflake-o" size={24} color={ac?red:black} />
-              <Text style={{color:ac?red:black}}>Climatiseur</Text>
+              <FontAwesome name="snowflake-o" size={24} color={ac?red:"black"} />
+              <Text style={{color:ac?red:"black"}}>Climatiseur</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnFilter} onPress={()=>setElevator(!elevator)}>
-              <MaterialCommunityIcons name="elevator-passenger-outline" size={24} color={elevator?red:black} />
-              <Text style={{color:elevator?red:black}}>Ascenseur</Text>
+              <MaterialCommunityIcons name="elevator-passenger-outline" size={24} color={elevator?red:"black"} />
+              <Text style={{color:elevator?red:"black"}}>Ascenseur</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnFilter} onPress={resetFilters}>
-              <Feather name="refresh-cw" size={24} color={black} />
+              <Feather name="refresh-cw" size={24} color="black" />
               <Text>Réinitialiser</Text>
             </TouchableOpacity>
           </ScrollView>

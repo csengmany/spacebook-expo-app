@@ -1,42 +1,28 @@
 import { useRoute } from "@react-navigation/core";
-import { useNavigation } from "@react-navigation/native";
-import { Image, Text, View, StyleSheet, useWindowDimensions, ScrollView } from "react-native";
+import { Image, Text, View, StyleSheet, useWindowDimensions, ScrollView} from "react-native";
 import axios from "axios"
 import React, { useEffect, useState }  from "react"
 import Loader from "../components/Loader";
 import MapView, { Marker } from "react-native-maps";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
 import { FontAwesome, Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
-import colors from "../assets/colors";
-const { red,lightgray, black } = colors;
-
-
+import OfficePrice from "../components/OfficePrice";
 
 export default function OfficeScreen() {
   const route = useRoute();
   const { id, date } = route.params;
-  const navigation = useNavigation();
 
   const { width } = useWindowDimensions()
 
   const [officeData, setOfficeData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [thumbsSwiper, setThumbsSwiper] = useState(null)
-  const [selectedDate, setSelectedDate] = useState(date??null)
-  const [location, setLocation] = useState({})
-  const server = "http://192.168.68.104:3002"
+
+  const server = "http://192.168.1.37:3002"
   //"https://spacebook-backend-94816fa1b759.herokuapp.com"
-  
-  const handleBookClick = () => {
-    // navigate(`/payment/${id}`, {
-    //     state: {office: officeData, 
-    //     date: Date.parse(selectedDate)}
-    // })
-  }
 
   const styles = StyleSheet.create({
     container:{
-      backgroundColor: '#ffffff',
+      backgroundColor: '#FFF',
       flex:1,
     },
     officeContainer: {
@@ -70,15 +56,6 @@ export default function OfficeScreen() {
       fontSize:18,
       fontFamily:"NotoSansMedium",
     },
-    priceContainer:{
-      display:"flex",
-      justifyContent:"center",
-      alignItems:"center",
-      paddingHorizontal:25,
-      height:70,
-      borderTopWidth: 1, 
-      borderTopColor:lightgray,
-    },
     services:{
       display:"flex",
       flexDirection:"row",
@@ -94,9 +71,10 @@ export default function OfficeScreen() {
       margin:5,
     },
      mapView: {
-        height: 200,
-        width: "100%",
-    },
+        height: 250,
+        width:width,
+        marginLeft:-25
+    },  
 }); 
 
   useEffect(() => {
@@ -105,7 +83,6 @@ export default function OfficeScreen() {
           try {
               const response = await axios.get(`${server}/office/${id}`)
               setOfficeData(response.data)
-              setLocation({lat:response.data.location[0],lng:response.data.location[1]})
               setIsLoading(false)
           } catch (error) {
               console.log(error)
@@ -162,11 +139,11 @@ export default function OfficeScreen() {
                 <Text>Wifi</Text>
               </View>}
                {officeData.services.coffee &&<View style={styles.service}>
-                  <MaterialCommunityIcons name="coffee-maker-outline" size={24} color={black} />
+                  <MaterialCommunityIcons name="coffee-maker-outline" size={24} color="black" />
                 <Text>Thé & café</Text>
               </View>}
                {officeData.services.water && <View style={styles.service}>
-              <Ionicons name="water-outline" size={24} color={black} />
+              <Ionicons name="water-outline" size={24} color="black" />
                 <Text>Fontaine à eau</Text>
               </View>}
                {officeData.services.wc &&<View style={styles.service}>
@@ -174,7 +151,7 @@ export default function OfficeScreen() {
                 <Text>Toilettes</Text>
               </View>}
               {officeData.services.elevator &&<View style={styles.service}>
-                <MaterialCommunityIcons name="elevator-passenger-outline" size={24} color={black} />
+                <MaterialCommunityIcons name="elevator-passenger-outline" size={24} color="black" />
                 <Text>Ascenseur</Text>
               </View>}
 
@@ -183,19 +160,19 @@ export default function OfficeScreen() {
             <Text style={styles.subTitle}>Équipements du Space</Text>
             <View style={styles.services}>
               {officeData.equipments.tv &&<View style={styles.service}>
-                <FontAwesome name="tv" size={24} color={black} />
+                <FontAwesome name="tv" size={24} color="black" />
                 <Text>Écran TV</Text>
               </View>}
                 {officeData.equipments.whiteboard &&<View style={styles.service}>
-                <MaterialCommunityIcons name="presentation" size={24} color={black} />
+                <MaterialCommunityIcons name="presentation" size={24} color="black" />
                 <Text>Tableau blanc</Text>
               </View>}
                 {officeData.equipments.projector &&<View style={styles.service}>
-                <Ionicons name="videocam-outline" size={24} color={black} />
+                <Ionicons name="videocam-outline" size={24} color="black" />
                 <Text>Vidéo-projecteur</Text>
               </View>}
                 {officeData.equipments.ac &&<View style={styles.service}>
-                <FontAwesome name="snowflake-o" size={24} color={black} />
+                <FontAwesome name="snowflake-o" size={24} color="black" />
                 <Text>Climatiseur</Text>
               </View>}
             </View>
@@ -221,9 +198,9 @@ export default function OfficeScreen() {
         </View>
       </View>
       </ScrollView>
-      <View style={styles.priceContainer}>
-        <Text>{officeData.price} € par jour</Text> 
-      </View>
+
+      <OfficePrice office={officeData} date={date} id={id} />
+
     </View>
 }
 

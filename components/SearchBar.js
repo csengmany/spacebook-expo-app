@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Modal, StyleSheet, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, Platform, StyleSheet, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import SelectRange from './SelectRange';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import colors from "../assets/colors";
 const { red, lightgray } = colors;
 
@@ -17,14 +18,15 @@ const SearchBar = ({
   const [modalVisible, setModalVisible] = useState(false);
   const [address, setAddress] = useState('');
   const [capacityMin, setCapacityMin] = useState('');
+  const [selectedDate, setSelectedDate] = useState(date? date: new Date());
    //slider filters for surface and price
   const [surfaceRangeValues, setSurfaceRangeValues] = useState(surfaceValues)
   const [priceRangeValues, setPriceRangeValues] = useState(priceValues)
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const openModal = () => {
     setModalVisible(true);
   };
-
   const closeModal = () => {
     setModalVisible(false);
   };
@@ -34,8 +36,15 @@ const SearchBar = ({
     const numericValue = text.replace(/[^0-9]/g, '');
     setCapacityMin(numericValue);
   };
-  
-  //clear input
+
+  const handleDateChange = (event, selected) => {
+    setShowDatePicker(false);
+    if (selected) {
+      setSelectedDate(selected);
+      setDate(selected)
+    }
+  };
+
   const handleClearInput = (inputType) => {
     if (inputType === 'address') {
       setAddress('');
@@ -116,14 +125,36 @@ const SearchBar = ({
                 </TouchableOpacity>
               ) : null}
             </View>
-            
+          <View style={styles.inputContainer}>
+            <TouchableOpacity
+              style={[styles.input, styles.dateInput]}
+              onPress={() => setShowDatePicker(true)}
+            >
             <TextInput
-              style={[styles.input, styles.lastInput]}
-              placeholder="Date"
-              value={date}
-              onChangeText={setDate}
-              
+              editable={false} 
+              placeholder="Sélectionner une date"
+              value={date?date?.toLocaleDateString("fr-FR"):''}
             />
+            </TouchableOpacity>
+             {date ? (
+                <TouchableOpacity
+                  style={styles.clearIcon}
+                  onPress={() => handleClearInput('date')}
+                >
+                  <Ionicons name="close-circle" size={24} color={lightgray} />
+                </TouchableOpacity>
+              ) : null}
+          </View>
+            {showDatePicker && (
+              <DateTimePicker
+                value={selectedDate}
+                mode="date"
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                onChange={handleDateChange}
+                minimumDate={new Date()} // Disable past dates
+                maximumDate={new Date(new Date().setFullYear(new Date().getFullYear() + 1))} //Disables dates greater than 1 year from the current date 
+              />
+            )}
 
             <View style={styles.slider}>
               <View style={styles.labelContainer}>
@@ -182,7 +213,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: '#FFF',
     padding: 16,
     borderRadius: 8,
     paddingTop:50,
@@ -197,9 +228,6 @@ const styles = StyleSheet.create({
     borderRadius:5,
     paddingRight:30
   },
-  lastInput:{
-    marginBottom:5,
-  },
   searchButton: {
     borderRadius:5,
     backgroundColor: red,
@@ -210,7 +238,7 @@ const styles = StyleSheet.create({
   searchButtonText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#FFF',
     fontFamily:"NotoSans",
   },
   closeButton: {
@@ -238,6 +266,12 @@ const styles = StyleSheet.create({
       position:"absolute",
       top:8,
       right:5,
+    },
+    dateInput:{
+      display:"flex",
+      justifyContent:"center",
+      alignItems:"flex-start",
+      marginBottom:5,
     }
 });
 
