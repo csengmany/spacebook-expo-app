@@ -2,12 +2,13 @@ import React from "react";
 import { TextInput, StyleSheet, View, Dimensions } from "react-native";
 // import colors
 import colors from "../assets/colors";
-const { red, lightGrey } = colors;
+const { red, lightgray } = colors;
 
 import { Ionicons } from "@expo/vector-icons";
 const width = Dimensions.get("window").width;
 
-const Input = ({
+const InputCustom = ({
+    type,
     placeholder,
     setFunction,
     secure,
@@ -20,9 +21,9 @@ const Input = ({
     return (
         <View style={styles.horizontal}>
             <TextInput
-                style={styles.input}
+                style={[styles.input, type==="password"?styles.password:styles.text]}
                 placeholder={placeholder}
-                // secureTextEntry={boolean}
+                autoCapitalize="none"
                 onChangeText={(text) => {
                     setFunction(text);
                     if (setNewInformations) {
@@ -38,12 +39,11 @@ const Input = ({
                 secureTextEntry={secure}
                 value={value && value}
             />
-            {(placeholder === "password" ||
-                placeholder === "confirm password") && (
+            {type === "password" && (
                 <Ionicons
-                    name={secure ? "eye" : "eye-off"}
+                    name={secure ? "eye-outline" : "eye-off-outline"}
                     size={24}
-                    color={lightGrey}
+                    color={lightgray}
                     onPress={() => {
                         setSecure(!secure);
                     }}
@@ -54,17 +54,22 @@ const Input = ({
     );
 };
 
-export default Input;
+export default InputCustom;
 
 const styles = StyleSheet.create({
     input: {
         fontSize: 18,
         borderBottomColor: red,
         borderBottomWidth: 1,
-        width: "70%",
-        height: 40,
-        marginTop: 20,
+        borderRadius:5,
+        padding:10,
+        width: "80%",
+        height: 50,
+        marginTop: 30,
         position: "relative",
+    },
+    password:{
+        paddingEnd:35,
     },
     horizontal: {
         flexDirection: "row",
@@ -73,8 +78,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     eye: {
-        top: 30,
-        right: 60,
+        top: 43,
+        right: 50,
         position: "absolute",
     },
 });

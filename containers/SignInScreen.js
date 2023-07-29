@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import { ActivityIndicator, Button, Text, TextInput, View, TouchableOpacity, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Input from "../components/Input";
+import InputCustom from "../components/InputCustom";
 import colors from "../assets/colors";
 const { red } = colors;
 
@@ -42,13 +42,15 @@ export default function SignInScreen({ setToken }) {
 
   return (
     <View style={styles.container}>
-        <Input
-              placeholder="email"
+        <InputCustom
+              type="text"
+              placeholder="E-mail"
               boolean={false}
               setFunction={setEmail}
           />
-          <Input
-              placeholder="password"
+          <InputCustom
+              type="password"
+              placeholder="Mot de passe"
               secure={visibility}
               setSecure={setVisibility}
               setFunction={setPassword}
@@ -60,15 +62,23 @@ export default function SignInScreen({ setToken }) {
           style={[styles.btn, styles.bg]}
           onPress={()=>{submit()}}
         >
-        <Text style={[styles.text]}>Se connecter {isLoading && <ActivityIndicator color="#FFF" />}</Text>
+        <Text style={[styles.text, styles.bold]}>Se connecter {isLoading && <ActivityIndicator color="#FFF" />}</Text>
         </TouchableOpacity>
+       <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("SignUp");
+          }}
+        > 
+          <Text style={[styles.link]}>Mot de passe oublié ?</Text>
+        </TouchableOpacity>
+
 
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("SignUp");
           }}
         >
-          <Text>S'inscrire</Text>
+          <Text>Vous n'avez pas de compte ? <Text style={[styles.link, styles.bold]}>Inscription</Text></Text>
         </TouchableOpacity>
     </View>
   );
@@ -78,21 +88,21 @@ export default function SignInScreen({ setToken }) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
+      backgroundColor:"#FFF",
       justifyContent: 'flex-start',
       alignItems: 'center',
     },
     text: {
         color: "#FFF",
         textAlign: "center",
-        fontFamily:"NotoSansBold"
+        fontSize:18,
     },
     btn: {
         height: 50,
         borderStyle: "solid",
-        borderWidth: 3,
-        borderColor: red,
         borderRadius: 5,
-        marginVertical: 10,
+        marginTop:20,
+        marginBottom: 10,
         width: "50%",
         justifyContent: "center",
         alignItems: "center",
@@ -103,4 +113,11 @@ const styles = StyleSheet.create({
     bg: {
         backgroundColor: red,
     },
+    bold:{
+      fontFamily:"NotoSansBold"
+    },
+    link:{
+      textDecorationLine:"underline",
+      marginVertical:5,
+    }
 });
