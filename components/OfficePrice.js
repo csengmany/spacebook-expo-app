@@ -1,22 +1,17 @@
-import { useRoute } from "@react-navigation/core";
 import { useNavigation } from "@react-navigation/native";
-import { Image, Text, TextInput, View, StyleSheet, useWindowDimensions, ScrollView, TouchableOpacity, Platform } from "react-native";
-import axios from "axios"
-import React, { useEffect, useState }  from "react"
-import Loader from "../components/Loader";
-import MapView, { Marker } from "react-native-maps";
-import { SwiperFlatList } from "react-native-swiper-flatlist";
-import { FontAwesome, Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Text, TextInput, View, StyleSheet, TouchableOpacity, Platform } from "react-native";
+import React, { useState }  from "react"
+import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from '@react-native-community/datetimepicker';
 // import colors
 import colors from "../assets/colors";
-const { black, red, lightgray } = colors;
+const { red, lightgray, darkgray } = colors;
 
 const OfficePrice = ({office, date, id }) => {
     const navigation = useNavigation();
 
     const [selectedDate, setSelectedDate] = useState(date?date: new Date())
-    const [dateValue, setDateValue] = useState (date? date.toLocaleDateString("fr-FR") :'')
+    const [dateValue, setDateValue] = useState (date? new Date(date).toLocaleDateString("fr-FR") :'')
     
     const [showDatePicker, setShowDatePicker] = useState(false);
     const handleDateChange = (event, selected) => {
@@ -70,10 +65,11 @@ const OfficePrice = ({office, date, id }) => {
         </View>
 
         {!showDatePicker&&<TouchableOpacity
-          style={[styles.btn, styles.bg]}
+          style={[styles.btn, dateValue?styles.bg:styles.disabled]}
           onPress={() => {
-            navigation.navigate("Payment", { id: office._id, date:Date.parse(selectedDate) })
+            navigation.navigate("Payment", { office: office, date:Date.parse(selectedDate) })
           }}
+          disabled={dateValue?false:true}
         >
           <Text style={[styles.text]}>Réserver</Text>
         </TouchableOpacity>}
@@ -134,7 +130,6 @@ const styles = StyleSheet.create({
         height: 50,
         borderStyle: "solid",
         borderWidth: 3,
-        borderColor: red,
         borderRadius: 5,
         width: 130,
         justifyContent: "center",
@@ -143,7 +138,12 @@ const styles = StyleSheet.create({
         marginVertical: 15
     },
      bg: {
+        borderColor: red,
         backgroundColor: red,
+    },
+    disabled:{
+      borderColor: darkgray,
+      backgroundColor: darkgray,
     },
      text: {
         fontSize:18,

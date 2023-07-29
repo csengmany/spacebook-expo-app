@@ -181,10 +181,10 @@ export default function App() {
             <Stack.Screen
                 name="Payment"
                 options={{
-                  title: "Paiement",
+                  title: "Réservation",
                 }}
               >
-              {() => <PaymentScreen />}
+              {() => <PaymentScreen  userToken={userToken}/>}
             </Stack.Screen>
 
             </>

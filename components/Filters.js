@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ScrollView, Text, TouchableOpacity } from "react-native";
 import {Feather, FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from "../assets/colors";
-const { red } = colors;
+const { red, lightgray } = colors;
 const Filters = ({
   setPage, 
   setFilters, 
@@ -42,7 +42,7 @@ const Filters = ({
         sort
     ])
    return (
-        <View>
+        <View style={styles.border}>
           <ScrollView horizontal={true}>
             <TouchableOpacity style={styles.btnFilter} onPress={()=>setTv(!tv)}>
               <FontAwesome name="tv" size={24} color={tv?red:"black"} />
@@ -88,5 +88,9 @@ const styles = StyleSheet.create({
       alignItems:"center",
       margin: 10,
     },
+    border:{
+      borderColor: lightgray,
+      borderBottomWidth:1,
+    }
 });
 export default Filters;

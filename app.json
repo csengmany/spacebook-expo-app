@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/SB.png",
+    "plugins": ["expo-camera"],
     "splash": {
       "image": "./assets/SPACEBOOK.png",
       "resizeMode": "contain",

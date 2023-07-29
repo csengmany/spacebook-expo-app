@@ -55,7 +55,7 @@ return (
           renderItem={({ item }) => {
               return (
                 <TouchableWithoutFeedback onPress={() => {
-                  navigation.navigate("Office", { id: office._id, date:date });
+                  navigation.navigate("Office", { id: office._id, date: date.toString()});
                 }}>
                   <Image
                       style={styles.bgImage}
@@ -69,7 +69,7 @@ return (
         ></SwiperFlatList>
       </View>
       <TouchableOpacity style={styles.description} onPress={() => {
-          navigation.navigate("Office", { id: office._id, date:date });
+          navigation.navigate("Office", { id: office._id, date: date.toString()});
         }}>
           <Text style={styles.title}>Space {office.title}</Text>
           <Text>
