@@ -1,43 +1,47 @@
 import { useNavigation } from "@react-navigation/core";
-import { ActivityIndicator, Button, Text, TextInput, View, TouchableOpacity, StyleSheet } from "react-native";
-import React, { useEffect, useState } from "react";
+import { ActivityIndicator, Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState } from "react";
 import axios from "axios";
 import InputCustom from "../components/InputCustom";
+import validator from "validator";
 import colors from "../assets/colors";
 const { red } = colors;
 
 export default function SignInScreen({ setToken }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [visibility, setVisibility] = useState(true);
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const navigation = useNavigation();
   const server = "http://192.168.1.37:3002"
   //"https://spacebook-backend-94816fa1b759.herokuapp.com"
 
-  const submit = async () => {
-    if (email && password) {
-        if (error !== "") {
-            setError("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [visibility, setVisibility] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigation = useNavigation();
+
+  const submitSignIn = async () => {
+    const isValidEmail = validator.isEmail(email)
+    if(!isValidEmail)
+      setErrorMessage("E-mail invalide")
+      
+    else if (email && password) {
+        if (errorMessage !== "") {
+            setErrorMessage("");
         }
         try {
             setIsLoading(true);
-            const response = await axios.post(
-                    `${server}/user/login`,
-                    { email, password }
-                )
+            const response = await axios.post(`${server}/user/login`,{ email, password })
             if (response.data.token) {
                 setIsLoading(false);
                 setToken(response.data.token)
             }
         } catch (error) {
           console.log(error)
+          setErrorMessage("Identifiants invalides");
           setIsLoading(false);
         }
-    } else {
-        setError("Remplissez tous les champs");
-    }
+      } else {
+          setErrorMessage("Remplissez tous les champs");
+      }
   };
 
   return (
@@ -56,17 +60,18 @@ export default function SignInScreen({ setToken }) {
               setFunction={setPassword}
           />
         
-        <Text >{error}</Text>
+        {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
         
         <TouchableOpacity
           style={[styles.btn, styles.bg]}
-          onPress={()=>{submit()}}
+          disabled={isLoading}
+          onPress={()=>{submitSignIn()}}
         >
         <Text style={[styles.text, styles.bold]}>Se connecter {isLoading && <ActivityIndicator color="#FFF" />}</Text>
         </TouchableOpacity>
        <TouchableOpacity
           onPress={() => {
-            navigation.navigate("SignUp");
+            navigation.navigate("ForgotPassword");
           }}
         > 
           <Text style={[styles.link]}>Mot de passe oublié ?</Text>
@@ -107,9 +112,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-    color: {
-        color: "#FFF",
-    },
     bg: {
         backgroundColor: red,
     },
@@ -119,5 +121,9 @@ const styles = StyleSheet.create({
     link:{
       textDecorationLine:"underline",
       marginVertical:5,
+    },
+    error:{
+      marginTop:5,
+      color:"red"
     }
 });

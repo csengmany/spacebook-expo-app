@@ -15,6 +15,7 @@ import * as Font from 'expo-font';
 import OfficeScreen from "./containers/OfficeScreen";
 import BookingsScreen from "./containers/BookingsScreen";
 import PaymentScreen from "./containers/PaymentScreen";
+import ForgotPasswordScreen from "./containers/ForgotPasswordScreen";
 
 
 const Tab = createBottomTabNavigator();
@@ -82,6 +83,12 @@ export default function App() {
                 title: "Inscription",
               }}>
                 {() => <SignUpScreen setToken={setToken} />}
+              </Stack.Screen>
+              <Stack.Screen name="ForgotPassword"
+              options={{
+                title: "Mot de passe oublié",
+              }}>
+                {() => <ForgotPasswordScreen />}
               </Stack.Screen>
             </>
           ) : (
