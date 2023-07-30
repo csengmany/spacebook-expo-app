@@ -52,7 +52,7 @@ export default function ForgotPasswordScreen() {
           disabled={loading}
           onPress={()=>{submitForgotPassword()}}
         >
-            <Text style={[styles.text, styles.bold]}>Réinitialiser{loading && <ActivityIndicator color="#FFF" />}</Text>
+            <Text style={[styles.text, styles.bold]}>Réinitialiser {loading && <ActivityIndicator color="#FFF" />}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -73,14 +73,12 @@ const styles = StyleSheet.create({
     text: {
         color: "#FFF",
         textAlign: "center",
-        fontSize:18,
+        fontSize:18
     },
     btn: {
         height: 50,
-        borderStyle: "solid",
         borderRadius: 5,
-        marginTop:20,
-        marginBottom: 10,
+        marginVertical:10,
         padding:10,
         width: "50%",
         justifyContent: "center",
@@ -93,13 +91,12 @@ const styles = StyleSheet.create({
       fontFamily:"NotoSansBold"
     },
     message :{
-        marginTop:5,
-        marginBottom:0,
         color:green,
-        padding:20,
+        marginVertical:5,
         textAlign:"center",
         fontFamily:"NotoSans",
         fontSize:16,
+        paddingHorizontal:20
     },
     success:{
         color:green,
