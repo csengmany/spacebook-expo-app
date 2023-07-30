@@ -29,7 +29,6 @@ export default function SignUpScreen( ) {
   const [picture, setPicture] = useState(null);
   const [isPictureModified, setIsPictureModified] = useState(false);
 
-  
   const submitSignUp = async () => {
       setErrorMessage("")
       setMessage("")
@@ -53,7 +52,6 @@ export default function SignUpScreen( ) {
                 name: `userAvatar`,
                 type: `image/${fileType}`,
               });
-              console.log(picture)
             }
               formData.append("email", email)
               formData.append("username", username)

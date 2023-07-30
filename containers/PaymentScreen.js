@@ -7,7 +7,7 @@ import colors from "../assets/colors";
 import axios from "axios";
 const { green, darkgray, lightgray } = colors;
 
-export default function PaymentScreen({userToken}) {
+export default function PaymentScreen({userJson}) {
   const route = useRoute();
   const navigation = useNavigation();
   const { office, date } = route.params;
@@ -56,18 +56,20 @@ export default function PaymentScreen({userToken}) {
           }
         )
         if(error)
-        console.log("Erreur", error)
+        {
+          setErrorMessage("Une erreur s'est produite, veuillez-réessayer")
+          console.log("Error : ", error)
+        }
         else if(paymentIntent){
           // successful payment : create the booking
           const bookingResponse = await axios.post(`${server}/booking/create/${office._id}`, {date},{headers: {
-            Authorization: "Bearer " + userToken,
+            Authorization: "Bearer " + JSON.parse(userJson).token,
             "Content-Type": "application/json",
           }});
           if(bookingResponse){
             setMessage("Paiement réussi. Merci pour votre réservation.")
             console.log("payment successful", paymentIntent)
           }
-          console.log("payment successful", paymentIntent)
         }
         else {
           setErrorMessage("Une erreur s'est produite, veuillez-réessayer")

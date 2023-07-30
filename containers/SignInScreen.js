@@ -7,7 +7,7 @@ import validator from "validator";
 import colors from "../assets/colors";
 const { red } = colors;
 
-export default function SignInScreen({ setToken }) {
+export default function SignInScreen({ setUserStorage }) {
   const server = "http://192.168.1.37:3002"
   //"https://spacebook-backend-94816fa1b759.herokuapp.com"
 
@@ -32,7 +32,11 @@ export default function SignInScreen({ setToken }) {
             const response = await axios.post(`${server}/user/login`,{ email, password })
             if (response.data.token) {
                 setIsLoading(false);
-                setToken(response.data.token)
+                setUserStorage(JSON.stringify({
+                  token: response.data.token,
+                  id: response.data._id,
+                  avatar: response.data.account?.avatar
+                }))
             }
         } catch (error) {
           console.log(error)

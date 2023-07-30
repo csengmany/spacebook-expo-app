@@ -9,6 +9,7 @@ import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
 import AccountScreen from "./containers/AccountScreen";
 import SplashScreen from "./containers/SplashScreen";
+import { Image, Text, View, StyleSheet, useWindowDimensions, ScrollView} from "react-native";
 import colors from "./assets/colors";
 const { red,darkgray } = colors;
 import * as Font from 'expo-font';
@@ -23,15 +24,15 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [userToken, setUserToken] = useState(null);
+  const [userJson, setUserJson] = useState(null);
 
-  const setToken = async (token) => {
-    if (token) {
-      await AsyncStorage.setItem("userToken", token);
+  const setUserStorage = async (userJson) => {
+    if (userJson) {
+      await AsyncStorage.setItem("userJson", userJson);
     } else {
-      await AsyncStorage.removeItem("userToken");
+      await AsyncStorage.removeItem("userJson");
     }
-    setUserToken(token);
+    setUserJson(userJson);
   };
 
   useEffect(() => {
@@ -51,11 +52,11 @@ export default function App() {
     // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
       // We should also handle error for production apps
-      const userToken = await AsyncStorage.getItem("userToken");
+      const userJson = await AsyncStorage.getItem("userJson");
 
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      setUserToken(userToken)
+      setUserJson(userJson)
     };
     bootstrapAsync()
     loadFonts()
@@ -69,20 +70,20 @@ export default function App() {
   return ( isLoading? <ActivityIndicator /> :  
       <NavigationContainer>
         <Stack.Navigator>
-          {userToken === null ? (
+          {userJson === null ? (
             // No token found, user isn't signed in
             <>
               <Stack.Screen name="SignIn"
               options={{
                 title: "Connexion",
               }}>
-                {() => <SignInScreen setToken={setToken} />}
+                {() => <SignInScreen setUserStorage={setUserStorage} />}
               </Stack.Screen>
               <Stack.Screen name="SignUp"
                options={{
                 title: "Inscription",
               }}>
-                {() => <SignUpScreen setToken={setToken} />}
+                {() => <SignUpScreen />}
               </Stack.Screen>
               <Stack.Screen name="ForgotPassword"
               options={{
@@ -162,6 +163,14 @@ export default function App() {
                     options={{
                       tabBarLabel: "Mon compte",
                       tabBarIcon: ({ color, size }) => (
+                        JSON.parse(userJson).avatar?
+                        <Image 
+                          style={{height:28,width:28, borderRadius:50}}
+                          source={{
+                              uri: JSON.parse(userJson).avatar,
+                          }}
+                        />
+                        :
                         <FontAwesome name="user-circle" size={size} color={color} />
                       ),
                     }}
@@ -174,7 +183,7 @@ export default function App() {
                             title: "Mon compte",
                           }}
                         >
-                          {() => <AccountScreen setToken={setToken} />}
+                          {() => <AccountScreen setUserStorage={setUserStorage} userJson={userJson}/>}
                         </Stack.Screen>
                       </Stack.Navigator>
                     )}
@@ -197,7 +206,7 @@ export default function App() {
                   title: "Réservation",
                 }}
               >
-              {() => <PaymentScreen  userToken={userToken}/>}
+              {() => <PaymentScreen  userJson={userJson}/>}
             </Stack.Screen>
 
             </>

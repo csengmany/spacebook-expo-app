@@ -18,13 +18,14 @@ const InputCustom = ({
     setNewInformations,
     setDisplayMessage,
     setIsInfosModified,
+    editable
 }) => {
     return (
         <View style={styles.container}>
         <Text style={styles.label}>{placeholder}{required && "*"}</Text>
             <View style={styles.horizontal}>
                 <TextInput
-                    style={[styles.input, type==="password"?styles.password:styles.text]}
+                    style={[styles.input, (type==="password"?styles.password:styles.text), editable&&styles.disabled]}
                     placeholder={placeholder}
                     autoCapitalize="none"
                     onChangeText={(text) => {
@@ -41,6 +42,7 @@ const InputCustom = ({
                     }}
                     secureTextEntry={secure}
                     value={value && value}
+                    editable={editable?false:true}
                 />
                 {type === "password" && (
                     <Ionicons
@@ -95,4 +97,7 @@ const styles = StyleSheet.create({
         right: 50,
         position: "absolute",
     },
+    disabled :{
+        backgroundColor: "#efefef"
+    }
 });
