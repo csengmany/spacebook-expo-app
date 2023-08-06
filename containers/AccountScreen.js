@@ -9,7 +9,7 @@ import colors from "../assets/colors";
 const { red, green, lightgray, darkgray} = colors;
 
 export default function AccountScreen({ userJson, setUserStorage }) {
-    const server = "http://192.168.1.37:3002"
+  const server = "http://192.168.1.37:3002"
   //"https://spacebook-backend-94816fa1b759.herokuapp.com"
 
   const [email, setEmail] = useState("");
@@ -113,6 +113,7 @@ export default function AccountScreen({ userJson, setUserStorage }) {
               setUserStorage(JSON.stringify({
                       token: response.data.user.token,
                       id:response.data.user._id, 
+                      email:response.data.user.email, 
                       username:response.data.user.account.username, 
                       lastname: response.data.user.account.lastname,
                       avatar:response.data.user.account?.avatar? response.data.user.account?.avatar?.secure_url:""
@@ -196,7 +197,7 @@ export default function AccountScreen({ userJson, setUserStorage }) {
             setUserStorage(null)
           }}
         >
-          <Text style={[styles.text, styles.bold]}>Se déconnecter</Text>
+          <Text style={[styles.text, styles.bold]}>Déconnexion</Text>
         </TouchableOpacity>
         <Text style={styles.title}>Mes informations personnelles</Text>
 

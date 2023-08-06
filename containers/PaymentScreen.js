@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRoute, useNavigation } from "@react-navigation/core";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { StyleSheet, View, Text, Image, useWindowDimensions,ScrollView, TouchableOpacity, Button, TextInput, ActivityIndicator } from "react-native";
+import { StyleSheet, View, Text, Image, useWindowDimensions,ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
 import { useConfirmPayment,StripeProvider,CardField } from '@stripe/stripe-react-native';
 import colors from "../assets/colors";
 import axios from "axios";
@@ -24,7 +24,6 @@ export default function PaymentScreen({userJson}) {
   const [errorMessage, setErrorMessage] = useState('');
   const[cardDetails, setCardDetails] = useState()
   const [message, setMessage] = useState('');
-  const [email, setEmail] = useState('')
   const { width } = useWindowDimensions()
 
   const navigateHome = () => {
@@ -36,14 +35,14 @@ export default function PaymentScreen({userJson}) {
   const handlePayPress = async () => {
     setMessage("")
     setErrorMessage("")
-    if(!cardDetails?.complete || !email){
+    if(!cardDetails?.complete){
       setErrorMessage("Veuillez compléter tous les champs")
       return;
     }
     try {
       setLoading(true)
       // create payment sheet for stripe payment
-      const response = await axios.post(paymentSheetURL, {office},
+      const response = await axios.post(paymentSheetURL, {office, user:{lastname:JSON.parse(userJson).lastname, email:JSON.parse(userJson).email}},
         { headers: {"Content-Type": "application/json"} })
       if(response){
         //confirm payment
@@ -51,7 +50,6 @@ export default function PaymentScreen({userJson}) {
         (
           response.data.clientSecret,{
             type: "Card",
-            billingDetails:{email},
             paymentMethodType:"Card"
           }
         )
@@ -62,7 +60,7 @@ export default function PaymentScreen({userJson}) {
         }
         else if(paymentIntent){
           // successful payment : create the booking
-          const bookingResponse = await axios.post(`${server}/booking/create/${office._id}`, {date},{headers: {
+          const bookingResponse = await axios.post(`${server}/booking/create/${office._id}`, {date, amount:office.price},{headers: {
             Authorization: "Bearer " + JSON.parse(userJson).token,
             "Content-Type": "application/json",
           }});
@@ -73,7 +71,7 @@ export default function PaymentScreen({userJson}) {
         }
         else {
           setErrorMessage("Une erreur s'est produite, veuillez-réessayer")
-          console.log("probleme")
+          console.log("problem")
         }
       }else{
         setErrorMessage("Une erreur s'est produite, veuillez-réessayer")
@@ -195,13 +193,6 @@ export default function PaymentScreen({userJson}) {
           <Text style={styles.text}>Montant : <Text style={styles.bold}>{office.price} €</Text></Text>
         <View>
             <Text style={styles.subtitle}>Paiement par carte bancaire</Text>
-            <TextInput
-            autoCapitalize="none"
-            placeholder="E-mail"
-            keyboardType="email-address"
-            onChange={(value)=> setEmail(value.nativeEvent.text)}
-            style={styles.input}
-            />
             <CardField
               postalCodeEnabled={false}
               placeholders={{

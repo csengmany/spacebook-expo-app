@@ -8,8 +8,7 @@ import HomeScreen from "./containers/HomeScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
 import AccountScreen from "./containers/AccountScreen";
-import SplashScreen from "./containers/SplashScreen";
-import { Image, Text, View, StyleSheet, useWindowDimensions, ScrollView} from "react-native";
+import { Image} from "react-native";
 import colors from "./assets/colors";
 const { red,darkgray } = colors;
 import * as Font from 'expo-font';
@@ -124,15 +123,6 @@ export default function App() {
                         >
                           {() => <HomeScreen />}
                         </Stack.Screen>
-
-                        <Stack.Screen
-                          name="Bookings"
-                          options={{
-                            title: "Mes réservations",
-                          }}
-                        >
-                          {() => <BookingsScreen />}
-                        </Stack.Screen>
                       </Stack.Navigator>
                     )}
                   </Tab.Screen>
@@ -150,10 +140,10 @@ export default function App() {
                         <Stack.Screen
                           name="Bookings"
                           options={{
-                            title: "Mes réservation",
+                            title: "Mes réservations",
                           }}
                         >
-                          {() => <BookingsScreen/>}
+                          {() => <BookingsScreen userJson={userJson}/>}
                         </Stack.Screen>
                       </Stack.Navigator>
                     )}
@@ -161,7 +151,7 @@ export default function App() {
                   <Tab.Screen
                     name="TabAccount"
                     options={{
-                      tabBarLabel: "Mon compte",
+                      tabBarLabel: "Profil",
                       tabBarIcon: ({ color, size }) => (
                         JSON.parse(userJson).avatar?
                         <Image 
@@ -180,7 +170,7 @@ export default function App() {
                         <Stack.Screen
                           name="Account"
                           options={{
-                            title: "Mon compte",
+                            title: "Profil",
                           }}
                         >
                           {() => <AccountScreen setUserStorage={setUserStorage} userJson={userJson}/>}

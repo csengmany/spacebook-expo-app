@@ -35,7 +35,10 @@ export default function SignInScreen({ setUserStorage }) {
                 setUserStorage(JSON.stringify({
                   token: response.data.token,
                   id: response.data._id,
-                  avatar: response.data.account?.avatar
+                  email: response.data.email, 
+                  avatar: response.data.account?.avatar? response.data.account?.avatar?.secure_url:"",
+                  username:response.data.account.username, 
+                  lastname: response.data.account.lastname,
                 }))
             }
         } catch (error) {
