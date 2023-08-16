@@ -26,7 +26,7 @@ export default function HomeScreen() {
 const [loadedOffices, setLoadedOffices] = useState([]);
 const loadMoreOffices = () => {
   //check if no need to load more
-  if(loadMoreOffices.length===data.count)
+  if(loadedOffices.length===data.count)
   return
   //change limit to load more
   setLimit(limit+6)
@@ -35,8 +35,8 @@ const handleEndReached = () => {
   loadMoreOffices();
 };
 
-  const server = "http://192.168.1.37:3002"
-  //"https://spacebook-backend-94816fa1b759.herokuapp.com"
+  // const server = "http://192.168.1.24:3002"
+  const server = "https://spacebook-backend-94816fa1b759.herokuapp.com"
 
   useEffect(() => {
   //axios request

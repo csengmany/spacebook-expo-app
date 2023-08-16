@@ -17,8 +17,8 @@ export default function OfficeScreen() {
   const [officeData, setOfficeData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
-  const server = "http://192.168.1.37:3002"
-  //"https://spacebook-backend-94816fa1b759.herokuapp.com"
+  // const server = "http://192.168.1.24:3002"
+  const server = "https://spacebook-backend-94816fa1b759.herokuapp.com"
 
   const styles = StyleSheet.create({
     container:{

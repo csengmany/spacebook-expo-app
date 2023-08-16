@@ -10,8 +10,8 @@ const { red, green, lightgray, darkgray} = colors;
 
 export default function SignUpScreen( ) {
 
-  const server = "http://192.168.1.37:3002"
-  //"https://spacebook-backend-94816fa1b759.herokuapp.com"
+  // const server = "http://192.168.1.24:3002"
+  const server = "https://spacebook-backend-94816fa1b759.herokuapp.com"
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -243,7 +243,8 @@ export default function SignUpScreen( ) {
           disabled={isLoading}
           onPress={()=>{submitSignUp()}}
         >
-        <Text style={[styles.text, styles.bold]}>S'inscrire {isLoading && <ActivityIndicator color="#FFF" />}</Text>
+        <Text style={[styles.text, styles.bold]}>S'inscrire</Text>
+        {isLoading && <ActivityIndicator color="#FFF" />}
         </TouchableOpacity>
       </View>
     </ScrollView>

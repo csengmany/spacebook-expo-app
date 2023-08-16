@@ -1,4 +1,4 @@
-import { useRoute, useNavigation } from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/core";
 import { useEffect, useState } from "react";
 import { Image, ScrollView, Text, View, StyleSheet, RefreshControl, TouchableOpacity, useWindowDimensions } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
@@ -8,9 +8,8 @@ import ConfirmationModal from "../components/ConfirmationModal";
 const { red, green, lightgray, darkgray} = colors;
 
 export default function BookingsScreen({userJson}) {
-    const server = "http://192.168.1.37:3002"
-    //"https://spacebook-backend-94816fa1b759.herokuapp.com"
-    const { params } = useRoute();
+    // const server = "http://192.168.1.24:3002"
+    const server = "https://spacebook-backend-94816fa1b759.herokuapp.com"
     const navigation = useNavigation();
     const [data, setData] = useState([])
     const [isLoading, setIsLoading] = useState(true)

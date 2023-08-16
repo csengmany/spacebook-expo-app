@@ -18,8 +18,9 @@ export default function PaymentScreen({userJson}) {
       day: 'numeric'
   }
 
-  const server = "http://192.168.1.37:3002"
-  //"https://spacebook-backend-94816fa1b759.herokuapp.com"
+  // const server = "http://192.168.1.24:3002"
+  const server = "https://spacebook-backend-94816fa1b759.herokuapp.com"
+  
   const [isLoading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const[cardDetails, setCardDetails] = useState()

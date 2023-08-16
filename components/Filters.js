@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ScrollView, Text, TouchableOpacity } from "react-native";
+import {Picker} from '@react-native-picker/picker';
 import {Feather, FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from "../assets/colors";
 const { red, lightgray } = colors;
@@ -16,7 +17,9 @@ const Filters = ({
     const[water, setWater] = useState(false)
     const[ac, setAc] = useState(false)
     const[elevator, setElevator] = useState(false)
-    const[sort] = useState('')
+    const[sort, setSort] = useState('')
+    const[showSortBy, setShowSortBy] = useState(false)
+    
 
     const resetFilters = () => {
         setTv(false)
@@ -76,7 +79,18 @@ const Filters = ({
               <Feather name="refresh-cw" size={24} color="black" />
               <Text>Réinitialiser</Text>
             </TouchableOpacity>
+            <TouchableOpacity style={styles.btnFilter} onPress={()=>setShowSortBy(!showSortBy)}>
+              <FontAwesome name="caret-down" size={24} color="black" />
+              <Text>Trier</Text>
+            </TouchableOpacity>
           </ScrollView>
+
+           {showSortBy && <Picker style={{height: 44}} itemStyle={{height: 44}} 
+           selectedValue={sort} onValueChange={(value) => setSort(value)}>
+              <Picker.Item key="default" label="Trier par nouveauté" value="" />
+              <Picker.Item key="asc" label="Prix croissant" value="price-asc" />
+              <Picker.Item key="desc" label="Prix décroissant" value="price-desc" />
+            </Picker>}
         </View>
    );
 };

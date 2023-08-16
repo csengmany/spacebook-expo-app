@@ -8,8 +8,8 @@ import colors from "../assets/colors";
 const { red } = colors;
 
 export default function SignInScreen({ setUserStorage }) {
-  const server = "http://192.168.1.37:3002"
-  //"https://spacebook-backend-94816fa1b759.herokuapp.com"
+  //const server = "http://192.168.1.24:3002"
+  const server = "https://spacebook-backend-94816fa1b759.herokuapp.com"
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
