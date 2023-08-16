@@ -16,18 +16,17 @@ LocaleConfig.locales['fr'] = {
 };
 LocaleConfig.defaultLocale = 'fr';
 
-const OfficePrice = ({ office, date, id }) => {
+const OfficePrice = ({ office, date, setDate }) => {
   const navigation = useNavigation();
   const initialDate = date ? new Date(date) : new Date(); // Set initialDate to current date if date prop is not provided
   const [selectedDate, setSelectedDate] = useState(initialDate);
-  const [dateValue, setDateValue] = useState(date ? new Date(date).toLocaleDateString('fr-FR') : '');
-    // Convert dates in the office.unavailable_dates array to the correct format
+  const [dateValue, setDateValue] = useState(date ? date: '');
+  // Convert dates in the office.unavailable_dates array to the correct format
   const formattedUnavailableDates = office.unavailable_dates.reduce((acc, date) => {
   const formattedDate = new Date(date).toISOString().split('T')[0];
   acc[formattedDate] = { disabled: true, disableTouchEvent: true, color: 'gray' };
   return acc;
 }, {});
-    console.log(formattedUnavailableDates)
 
   const unavailableDates = {
     ...formattedUnavailableDates
@@ -38,19 +37,19 @@ const OfficePrice = ({ office, date, id }) => {
     if (day) {
       setSelectedDate(day);
       setDateValue(day.dateString); // Update the dateValue with the selected date
+      setDate(day.dateString)
     }
   };
 
     const handleClearInput = () => {
     setSelectedDate(null);
-    setDateValue('');
+    setDateValue(null);
   };
 
   const handleReserve = () => {
     if (selectedDate) {
-      console.log(selectedDate)
       // Proceed to the booking step
-      navigation.navigate('Payment', { office: office, date: Date.parse(selectedDate.dateString) });
+      navigation.navigate('Payment', { office: office, date:selectedDate?.dateString? Date.parse(selectedDate.dateString):selectedDate });
     }
   };
   return (
@@ -69,7 +68,7 @@ const OfficePrice = ({ office, date, id }) => {
                 style={{ color: 'black' }}
                 editable={false}
                 placeholder="Ajouter une date"
-                value={dateValue?new Date(dateValue).toLocaleDateString('fr-FR'):''}
+                value={dateValue?(typeof dateValue==="string"?(new Date(dateValue).toLocaleDateString('fr-FR')):dateValue):''}
               />
             </TouchableOpacity>
             {showDatePicker && 
@@ -140,7 +139,7 @@ const OfficePrice = ({ office, date, id }) => {
         <TouchableOpacity
           style={[styles.btn, dateValue ? styles.bg : styles.disabled]}
           onPress={handleReserve}
-          disabled={!selectedDate}
+          disabled={!date}
         >
           <Text style={[styles.text]}>Réserver</Text>
         </TouchableOpacity>

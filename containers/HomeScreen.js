@@ -21,7 +21,7 @@ export default function HomeScreen() {
   const [maxPage, setMaxPage] = useState("")
 
   //state for date
-  const[date, setDate] = useState('')
+  const[date, setDate] = useState(null)
 
 const [loadedOffices, setLoadedOffices] = useState([]);
 const loadMoreOffices = () => {
@@ -84,7 +84,7 @@ const handleEndReached = () => {
       <FlatList
         contentContainerStyle={styles.contentContainer}
         data={loadedOffices}
-        renderItem={({ item }) => <OfficeCard office={item} date={date}/>}
+        renderItem={({ item }) => <OfficeCard office={item} date={date}  setDate={setDate}/>}
         keyExtractor={(item) => item._id}
         onEndReached={handleEndReached} //call function to load more offices
         onEndReachedThreshold={1.5} //load more offices before reaching the last office

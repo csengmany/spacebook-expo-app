@@ -109,7 +109,6 @@ export default function AccountScreen({ userJson, setUserStorage }) {
               }}
           )
           if (response.data.user.token) {
-            console.log(response.data.user.token)
               setUserStorage(JSON.stringify({
                       token: response.data.user.token,
                       id:response.data.user._id, 

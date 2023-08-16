@@ -10,7 +10,7 @@ import OfficePrice from "../components/OfficePrice";
 
 export default function OfficeScreen() {
   const route = useRoute();
-  const { id, date } = route.params;
+  const { id, date, setDate } = route.params;
 
   const { width } = useWindowDimensions()
 
@@ -199,7 +199,7 @@ export default function OfficeScreen() {
       </View>
       </ScrollView>
 
-      <OfficePrice office={officeData} date={date} id={id} />
+      <OfficePrice office={officeData} date={date} setDate={setDate} id={id} />
 
     </View>
 }

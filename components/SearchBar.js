@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Modal, Platform, StyleSheet, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, StyleSheet, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import SelectRange from './SelectRange';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import colors from "../assets/colors";
+import { Calendar } from 'react-native-calendars';
 const { red, lightgray } = colors;
 
 const SearchBar = ({ 
@@ -18,7 +18,10 @@ const SearchBar = ({
   const [modalVisible, setModalVisible] = useState(false);
   const [address, setAddress] = useState('');
   const [capacityMin, setCapacityMin] = useState('');
-  const [selectedDate, setSelectedDate] = useState(date? date: new Date());
+  const initialDate = date ? new Date(date) : new Date(); // Set initialDate to current date if date prop is not provided
+  const [selectedDate, setSelectedDate] = useState(initialDate);
+  const [dateValue, setDateValue] = useState(date ? new Date(date).toLocaleDateString('fr-FR') : '');
+
    //slider filters for surface and price
   const [surfaceRangeValues, setSurfaceRangeValues] = useState(surfaceValues)
   const [priceRangeValues, setPriceRangeValues] = useState(priceValues)
@@ -37,11 +40,12 @@ const SearchBar = ({
     setCapacityMin(numericValue);
   };
 
-  const handleDateChange = (event, selected) => {
+  const handleDateChange = (day) => {
     setShowDatePicker(false);
-    if (selected) {
-      setSelectedDate(selected);
-      setDate(selected)
+    if (day) {
+      setSelectedDate(day);
+      setDateValue(day.dateString); // Update the dateValue with the selected date
+      setDate(day.dateString)
     }
   };
 
@@ -51,7 +55,9 @@ const SearchBar = ({
     } else if (inputType === 'capacityMin') {
       setCapacityMin('');
     } else if (inputType === 'date') {
-      setDate('');
+      setSelectedDate(null);
+      setDateValue(null);
+      setDate(null)
     }
   };
 
@@ -132,8 +138,9 @@ const SearchBar = ({
             >
             <TextInput
               editable={false} 
+              style={{color:"black"}}
               placeholder="Sélectionner une date"
-              value={date?date?.toLocaleDateString("fr-FR"):''}
+              value={dateValue?new Date (dateValue)?.toLocaleDateString("fr-FR"):''}
             />
             </TouchableOpacity>
              {date ? (
@@ -146,14 +153,52 @@ const SearchBar = ({
               ) : null}
           </View>
             {showDatePicker && (
-              <DateTimePicker
-                value={selectedDate}
-                mode="date"
-                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                onChange={handleDateChange}
-                minimumDate={new Date()} // Disable past dates
-                maximumDate={new Date(new Date().setFullYear(new Date().getFullYear() + 1))} //Disables dates greater than 1 year from the current date 
-              />
+                <Calendar
+                style={{
+                  marginBottom:15
+                }}
+                  current={selectedDate ? selectedDate.dateString : new Date().toISOString().split('T')[0]}
+                  minDate={new Date().toISOString().split('T')[0]}
+                  maxDate={new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0]}
+                  onDayPress={handleDateChange}
+                  markedDates={{
+                    // ...unavailableDates,
+                    ...(selectedDate ? { [selectedDate.dateString]: { selected: true, disableTouchEvent: true } } : {})
+                  }}
+                  disableAllTouchEventsForDisabledDays
+                  theme={{
+                  arrowColor: 'black',
+                  borderRadius:8,
+                  textMonthFontFamily: 'NotoSansBold',
+                  textDayFontFamily: 'NotoSans',
+                  textMonthFontSize: 16,
+                  textDayFontSize: 15,
+                  todayTextColor: red,
+                  selectedDayTextColor: 'white',
+                  selectedDayBackgroundColor: red,
+                  dayTextColor: 'black',
+                  textDisabledColor: lightgray,
+                  'stylesheet.day.basic': {
+                    text: {
+                      fontSize: 15,
+                      fontFamily: 'NotoSans',
+                      color: 'black',
+                    },
+                    today: {
+                      borderColor: red,
+                      borderWidth: 1,
+                      borderRadius: 5,
+                    },
+                    selected: {
+                      backgroundColor: red,
+                      borderRadius: 5,
+                    },
+                    disabled: {
+                      backgroundColor: 'transparent',
+                    },
+                  },
+                }}
+                />
             )}
 
             <View style={styles.slider}>

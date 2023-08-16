@@ -4,7 +4,7 @@ import { StyleSheet, View, Image, Text, TouchableOpacity, TouchableWithoutFeedba
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-export default function OfficeCard({ office, date }) {
+export default function OfficeCard({ office, date, setDate }) {
 const { width } = useWindowDimensions()
 const navigation = useNavigation();
 const carouselData = []
@@ -55,7 +55,7 @@ return (
           renderItem={({ item }) => {
               return (
                 <TouchableWithoutFeedback onPress={() => {
-                  navigation.navigate("Office", { id: office._id, date: date.toString()});
+                  navigation.navigate("Office", { id: office._id, date: date?.toString(), setDate:setDate});
                 }}>
                   <Image
                       style={styles.bgImage}
@@ -69,7 +69,7 @@ return (
         ></SwiperFlatList>
       </View>
       <TouchableOpacity style={styles.description} onPress={() => {
-          navigation.navigate("Office", { id: office._id, date: date.toString()});
+          navigation.navigate("Office", { id: office._id, date: date?.toString()});
         }}>
           <Text style={styles.title}>Space {office.title}</Text>
           <Text>
