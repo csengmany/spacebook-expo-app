@@ -16,6 +16,7 @@ import OfficeScreen from "./containers/OfficeScreen";
 import BookingsScreen from "./containers/BookingsScreen";
 import PaymentScreen from "./containers/PaymentScreen";
 import ForgotPasswordScreen from "./containers/ForgotPasswordScreen";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 
 const Tab = createBottomTabNavigator();
@@ -24,6 +25,8 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userJson, setUserJson] = useState(null);
+   //state for date
+  const[date, setDate] = useState(null)
 
   const setUserStorage = async (userJson) => {
     if (userJson) {
@@ -66,8 +69,10 @@ export default function App() {
     return null;
   }
 
-  return ( isLoading? <ActivityIndicator /> :  
-      <NavigationContainer>
+  return (  
+       <SafeAreaProvider>
+        {isLoading? <ActivityIndicator /> : 
+        <NavigationContainer>
         <Stack.Navigator>
           {userJson === null ? (
             // No token found, user isn't signed in
@@ -121,7 +126,7 @@ export default function App() {
                             headerTitleStyle: { color: "#FFF", fontFamily:'NotoSansBold' },
                           }}
                         >
-                          {() => <HomeScreen />}
+                          {() => <HomeScreen date={date} setDate={setDate}/>}
                         </Stack.Screen>
                       </Stack.Navigator>
                     )}
@@ -187,7 +192,7 @@ export default function App() {
                   title: "Détails",
                 }}
               >
-              {() => <OfficeScreen />}
+              {() => <OfficeScreen date={date} setDate={setDate}/>}
             </Stack.Screen>
             
             <Stack.Screen
@@ -196,12 +201,13 @@ export default function App() {
                   title: "Réservation",
                 }}
               >
-              {() => <PaymentScreen  userJson={userJson}/>}
+              {() => <PaymentScreen  userJson={userJson} date={date}/>}
             </Stack.Screen>
 
             </>
           )}
         </Stack.Navigator>
-      </NavigationContainer>
+      </NavigationContainer>}
+      </SafeAreaProvider>
   );
 }

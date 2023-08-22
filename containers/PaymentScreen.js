@@ -7,10 +7,10 @@ import colors from "../assets/colors";
 import axios from "axios";
 const { green, darkgray, lightgray } = colors;
 
-export default function PaymentScreen({userJson}) {
+export default function PaymentScreen({userJson, date}) {
   const route = useRoute();
   const navigation = useNavigation();
-  const { office, date } = route.params;
+  const { office } = route.params;
   const options = {
       weekday: 'long',
       year: 'numeric',

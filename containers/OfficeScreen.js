@@ -8,9 +8,9 @@ import { SwiperFlatList } from "react-native-swiper-flatlist";
 import { FontAwesome, Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import OfficePrice from "../components/OfficePrice";
 
-export default function OfficeScreen() {
+export default function OfficeScreen({date, setDate}) {
   const route = useRoute();
-  const { id, date, setDate } = route.params;
+  const { id } = route.params;
 
   const { width } = useWindowDimensions()
 

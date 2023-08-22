@@ -6,7 +6,7 @@ import SearchBar from "../components/SearchBar";
 import Filters from "../components/Filters";
 import OfficeCard from "../components/OfficeCard";
 
-export default function HomeScreen() {
+export default function HomeScreen({date, setDate}) {
   const [data, setData] = useState([])
   const [searchFilters, setSearchFilters] = useState('')
   const [filters, setFilters] = useState('')
@@ -20,8 +20,6 @@ export default function HomeScreen() {
   const [limit, setLimit] = useState(6)
   const [maxPage, setMaxPage] = useState("")
 
-  //state for date
-  const[date, setDate] = useState(null)
 
 const [loadedOffices, setLoadedOffices] = useState([]);
 const loadMoreOffices = () => {

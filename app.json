@@ -1,11 +1,13 @@
 {
   "expo": {
-    "name": "NavApp",
+    "name": "SPACEBOOK",
     "slug": "NavApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/SB.png",
-    "plugins": ["expo-camera"],
+    "icon": "./assets/mini-SB.png",
+    "plugins": [
+      "expo-camera"
+    ],
     "splash": {
       "image": "./assets/SPACEBOOK.png",
       "resizeMode": "contain",
@@ -14,18 +16,30 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/mini-SB.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.spacebook.NavApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7ddcdcd6-378e-4bc3-bdda-7e2b0bbe50c8"
+      }
     }
   }
 }

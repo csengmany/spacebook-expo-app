@@ -49,7 +49,7 @@ const OfficePrice = ({ office, date, setDate }) => {
   const handleReserve = () => {
     if (selectedDate) {
       // Proceed to the booking step
-      navigation.navigate('Payment', { office: office, date:selectedDate?.dateString? Date.parse(selectedDate.dateString):selectedDate });
+      navigation.navigate('Payment', { office: office });
     }
   };
   return (
